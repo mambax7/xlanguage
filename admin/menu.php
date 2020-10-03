@@ -10,30 +10,26 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @copyright    XOOPS Project (https://xoops.org)
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
 
 use Xmf\Module\Admin;
-use Xmf\Module\Helper;
+use XoopsModules\Xlanguage;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// require_once  dirname(__DIR__) . '/class/Helper.php';
+//require_once  dirname(__DIR__) . '/include/common.php';
+/** @var Xlanguage\Helper $helper */
+$helper = Xlanguage\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
 
-//$path = dirname(dirname(dirname(__DIR__)));
-//require_once $path . '/mainfile.php';
-
-$moduleDirName = basename(dirname(__DIR__));
-
-if (false !== ($moduleHelper = Helper::getHelper($moduleDirName))) {
-} else {
-    $moduleHelper = Helper::getHelper('system');
+$pathIcon32 = Admin::menuIconPath('');
+if (is_object($helper->getModule())) {
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 }
-$pathIcon32    = Admin::menuIconPath('');
-$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
-
-xoops_loadLanguage('modinfo', $moduleDirName);
 
 $adminmenu[] = [
     'title' => _MI_XLANGUAGE_ADMENU_HOME,

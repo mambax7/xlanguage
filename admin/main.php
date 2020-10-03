@@ -10,17 +10,27 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @copyright    XOOPS Project (https://xoops.org)
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Xlanguage\{
+    Helper,
+    LanguageHandler,
+    Utility
+};
+/** @var Helper $helper */
+/** @var LanguageHandler $languageHandler */
+/** @var Utility $utility */
+/** @var Admin $adminObject */
+
 require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/vars.php';
-require_once XOOPS_ROOT_PATH . '/modules/xlanguage/class/utility.php';
 
 $op = '';
 if (isset($_POST)) {
@@ -36,38 +46,37 @@ if (isset($_GET)) {
 
 define('XLANG_CONFIG_LINK', "<a href='main.php' target='_self'>" . _AM_XLANGUAGE_CONFIG . '</a>');
 
-/** @var \XlanguageLanguageHandler $xlanguageHandler */
-$xlanguageHandler = xoops_getModuleHandler('language', 'xlanguage');
-$xlanguageHandler->loadConfig();
+$helper = Helper::getInstance();
+$languageHandler = $helper->getHandler('Language');
+$languageHandler->loadConfig();
 
 switch ($op) {
     case 'del':
         if (!isset($_POST['ok']) || 1 != $_POST['ok']) {
             xoops_cp_header();
-            $aboutAdmin = \Xmf\Module\Admin::getInstance();
+            $aboutAdmin = Admin::getInstance();
             $adminObject->displayNavigation(basename(__FILE__));
             //            echo "<h4>" . XLANG_CONFIG_LINK . "</h4>";
-            xoops_confirm(['op' => 'del', 'type' => $_GET['type'], 'lang_id' => (int)$_GET['lang_id'], 'ok' => 1], 'main.php', _AM_XLANGUAGE_DELETE_CFM);
+            xoops_confirm(['op' => 'del', 'type' => Request::getString('type', 0, 'GET'), 'lang_id' => Request::getInt('lang_id', 0, 'GET'), 'ok' => 1], 'main.php', _AM_XLANGUAGE_DELETE_CFM);
         } else {
             $isBase = true;
             if (isset($type) && 'ext' === $type) {
                 $isBase = false;
             }
-            $lang = $xlanguageHandler->get($lang_id, $isBase);
-            $xlanguageHandler->delete($lang);
+            $lang = $languageHandler->get($lang_id, $isBase);
+            $languageHandler->delete($lang);
             redirect_header('main.php', 2, _AM_XLANGUAGE_DELETED);
         }
         break;
-
     case 'save':
         $isBase = true;
         if (isset($type) && 'ext' === $type) {
             $isBase = false;
         }
         if (isset($lang_id) && $lang_id > 0) {
-            $lang = $xlanguageHandler->get($lang_id, $isBase);
+            $lang = $languageHandler->get($lang_id, $isBase);
         } else {
-            $lang = $xlanguageHandler->create(true, $isBase);
+            $lang = $languageHandler->create(true, $isBase);
         }
         $lang_name = preg_replace("/[^a-zA-Z0-9\_\-]/", '', $lang_name);
 
@@ -80,13 +89,12 @@ switch ($op) {
             $lang->setVar('lang_base', $lang_base);
         }
         $lang->setVar('weight', $weight);
-        $xlanguageHandler->insert($lang);
+        $languageHandler->insert($lang);
         redirect_header('main.php', 2, _AM_XLANGUAGE_SAVED);
         break;
-
     case 'edit':
         xoops_cp_header();
-        $aboutAdmin = \Xmf\Module\Admin::getInstance();
+        $aboutAdmin = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
         // echo "<h4>" . XLANG_CONFIG_LINK . "</h4>";
         // echo "<br>";
@@ -96,11 +104,11 @@ switch ($op) {
             $isBase = false;
         }
         if (isset($lang_id) && $lang_id > 0) {
-            $lang = $xlanguageHandler->get($lang_id, $isBase);
+            $lang = $languageHandler->get($lang_id, $isBase);
         } elseif (isset($lang_name)) {
-            $lang = $xlanguageHandler->getByName($lang_name, $isBase);
+            $lang = $languageHandler->getByName($lang_name, $isBase);
         } else {
-            $lang = $xlanguageHandler->create(true, $isBase);
+            $lang = $languageHandler->create(true, $isBase);
         }
         $lang_name    = $lang->getVar('lang_name');
         $lang_desc    = $lang->getVar('lang_desc');
@@ -111,12 +119,11 @@ switch ($op) {
         if (!$isBase) {
             $lang_base = $lang->getVar('lang_base');
         }
-        include __DIR__ . '/langform.inc.php';
+        require_once __DIR__ . '/langform.inc.php';
         break;
-
     case 'add':
         xoops_cp_header();
-        $aboutAdmin = \Xmf\Module\Admin::getInstance();
+        $aboutAdmin = Admin::getInstance();
         //        echo "<h4>" . XLANG_CONFIG_LINK . "</h4>";
         //        echo "<br>";
         //        echo "<h4>" . _AM_XLANGUAGE_ADDLANG . "</h4>";
@@ -134,19 +141,17 @@ switch ($op) {
         $lang_image   = '';
         $weight       = 1;
         $lang_base    = '';
-        include __DIR__ . '/langform.inc.php';
+        require_once __DIR__ . '/langform.inc.php';
         break;
-
     case 'createconfig':
-        XLanguageUtility::createConfig();
+        Utility::createConfig();
         redirect_header('main.php', 1, _AM_XLANGUAGE_CREATED);
 
         break;
-
     case 'default':
     default:
         xoops_cp_header();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
 
         // if (TDMDownloads_checkModuleAdmin()) {
@@ -159,26 +164,30 @@ switch ($op) {
         //        }
 
         //        echo "<h4>" . XLANG_CONFIG_LINK . "</h4>";
-        languageList();
-        $configfile_status = (@is_readable(XLANGUAGE_CONFIG_FILE)) ? _AM_XLANGUAGE_CONFIGOK : _AM_XLANGUAGE_CONFIGNOTOK;
+        languageList($languageHandler);
+        $configfile_status = (@is_readable(\XLANGUAGE_CONFIG_FILE)) ? _AM_XLANGUAGE_CONFIGOK : _AM_XLANGUAGE_CONFIGNOTOK;
         echo "<table width='100%' border='0' cellspacing='1' class='outer'><tr><td class=\"odd\"><br>";
         //        echo " - <b><a href='index.php?op=add&amp;type=base'>" . _AM_XLANGUAGE_ADDBASE . "</a></b><br><br>\n";
         //        echo " - <b><a href='index.php?op=add&amp;type=ext'>" . _AM_XLANGUAGE_ADDEXT . "</a></b><br><br>\n";
-        echo '<b>' . $configfile_status . '</b>: ' . XLANGUAGE_CONFIG_FILE . " (<a href='main.php?op=createconfig' title='" . _AM_XLANGUAGE_CREATECONFIG . "'>" . _AM_XLANGUAGE_CREATECONFIG . "</a>)<br><br>\n";
+        echo '<b>' . $configfile_status . '</b>: ' . \XLANGUAGE_CONFIG_FILE . " (<a href='main.php?op=createconfig' title='" . _AM_XLANGUAGE_CREATECONFIG . "'>" . _AM_XLANGUAGE_CREATECONFIG . "</a>)<br><br>\n";
         //        echo " - <b><a href='about.php'>" . _AM_XLANGUAGE_ABOUT . "</a></b>";
         echo '</td></tr></table>';
         break;
 }
 xoops_cp_footer();
 
-function languageList()
+/**
+ * @param LanguageHandler $languageHandler
+ */
+function languageList(LanguageHandler $languageHandler)
 {
-    global $xlanguageHandler, $xoopsModule;
+    //    global $languageHandler, $xoopsModule;
 
     global $pathIcon16;
 
-    $lang_list = $xlanguageHandler->getAllList();
-    if (is_array($lang_list) && count($lang_list) > 0) {
+    $lang_list = $languageHandler->getAllList();
+
+    if ($lang_list && is_array($lang_list)) {
         echo "<table width='100%' border='0' cellspacing='1' class='outer'><tr><td class=\"odd\">";
         echo "<div style='text-align: center;'><b><h4>" . _AM_XLANGUAGE_LANGLIST . '</h4></b><br>';
         echo "<table class='outer' width='100%' border='0' cellpadding='0' cellspacing='0' ><tr class='bg2'><th align='center'>"
@@ -200,7 +209,7 @@ function languageList()
              . "</th></tr>\n";
         $class = 'even';
         foreach (array_keys($lang_list) as $lang_name) {
-            $lang     =& $lang_list[$lang_name];
+            $lang     = &$lang_list[$lang_name];
             $isOrphan = true;
             if (isset($lang['base'])) {
                 echo "<tr>\n";
@@ -248,7 +257,7 @@ function languageList()
                 }
                 echo "<td class='$class' ><img src='" . XOOPS_URL . '/modules/xlanguage/assets/images/' . $lang_image . "' alt='" . $ext->getVar('lang_desc') . "'></td>\n";
                 echo "<td class='$class' >" . $ext->getVar('weight') . "</td>\n";
-                $lang_base = $isOrphan ? "<span style='color:red'>" . $ext->getVar('lang_base') . '</span>' : $ext->getVar('lang_base');
+                $lang_base = $isOrphan ? "<span style='color:#ff0000'>" . $ext->getVar('lang_base') . '</span>' : $ext->getVar('lang_base');
                 echo "<td class='$class' ><b>" . $lang_base . "</b></td>\n";
                 echo "<td class='$class' ><a href='main.php?op=edit&amp;type=ext&amp;lang_id="
                      . $ext->getVar('lang_id')
