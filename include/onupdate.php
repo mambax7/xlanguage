@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,12 +11,12 @@
 
 /**
  * @copyright    XOOPS Project (https://xoops.org)
- * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @author       XOOPS Development Team
  */
 
-use XoopsModules\Xlanguage;
-use XoopsModules\Xlanguage\{Common,
+use XoopsModules\Xlanguage\{
+    Common,
     Common\Configurator,
     Helper,
     Utility
@@ -26,13 +26,10 @@ use XoopsModules\Xlanguage\{Common,
 /** @var Utility $utility */
 /** @var Configurator $configurator */
 /** @var Migrate $migrator */
-
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
-
-
 
 /**
  * Prepares system prior to attempting to install module
@@ -102,7 +99,7 @@ function xoops_module_update_xlanguage(\XoopsModule $module, $previousVersion = 
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->oldFolders) as $i) {
                 $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
-                /* @var XoopsObjectHandler $folderHandler */
+                /** @var XoopsObjectHandler $folderHandler */
                 $folderHandler = XoopsFile::getHandler('folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
             }

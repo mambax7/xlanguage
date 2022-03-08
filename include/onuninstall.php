@@ -1,14 +1,16 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * uninstall.php - cleanup on module uninstall
  *
  * @author          XOOPS Module Development Team
  * @copyright       {@link https://xoops.org 2001-2016 XOOPS Project}
- * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @license         {@link https://www.fsf.org/copyleft/gpl.html GNU public license}
  * @link            https://xoops.org XOOPS
  */
 
-use XoopsModules\Xlanguage\{Helper,
+use XoopsModules\Xlanguage\{
+    Helper,
     Utility
 };
 
@@ -38,7 +40,7 @@ function xoops_module_uninstall_xlanguage(\XoopsModule $module)
     //    return true;
 
     $moduleDirName      = \basename(\dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     $helper             = Helper::getInstance();
     $utility            = new Utility();
 

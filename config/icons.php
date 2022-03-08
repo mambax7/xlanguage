@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 use Xmf\Module\Admin;
 
 $moduleDirName = \basename(\dirname(__DIR__));
-$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon16    = Admin::iconUrl('', '16');
 
 return [
-    'name' => mb_strtoupper($moduleDirName) . ' IconConfigurator',
+    'name' => \mb_strtoupper($moduleDirName) . ' IconConfigurator',
 
     'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
     'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
@@ -17,6 +17,4 @@ return [
     'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
     '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
     '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
-
 ];
-

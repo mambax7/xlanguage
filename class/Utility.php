@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Xlanguage;
 
-use XoopsModules\Xlanguage\{Common
-};
 use Xmf\Request;
+use XoopsModules\Xlanguage\{
+    Common
+};
 
 /** @var Helper $helper */
 /** @var LanguageHandler $languageHandler */
@@ -42,7 +43,7 @@ class Utility extends Common\SysUtility
      */
     public static function convertItem($value, $out_charset, $in_charset)
     {
-        if (mb_strtolower($in_charset) == mb_strtolower($out_charset)) {
+        if (mb_strtolower($in_charset) == \mb_strtolower($out_charset)) {
             return $value;
         }
 
@@ -128,7 +129,7 @@ class Utility extends Common\SysUtility
      */
     public static function detectLang()
     {
-        global  $_SERVER;
+        global $_SERVER;
         //      if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         if (Request::hasVar('HTTP_ACCEPT_LANGUAGE', 'SERVER')) {
             $HTTP_ACCEPT_LANGUAGE = Request::getString('HTTP_ACCEPT_LANGUAGE', '', 'SERVER');
@@ -143,16 +144,16 @@ class Utility extends Common\SysUtility
         $xoops_lang = '';
         // 1. try to findout user's language by checking its HTTP_ACCEPT_LANGUAGE variable
 
-            if (empty($lang) && !empty($HTTP_ACCEPT_LANGUAGE)) {
-                $accepted    = explode(',', $HTTP_ACCEPT_LANGUAGE);
-                reset($accepted);
-                foreach ($accepted as $iValue) {
-                    $lang = static::langDetect($iValue, 1);
-                    if (strncasecmp($lang, 'en', 2)) {
-                        break;
-                    }
+        if (empty($lang) && !empty($HTTP_ACCEPT_LANGUAGE)) {
+            $accepted = explode(',', $HTTP_ACCEPT_LANGUAGE);
+            reset($accepted);
+            foreach ($accepted as $iValue) {
+                $lang = static::langDetect($iValue, 1);
+                if (strncasecmp($lang, 'en', 2)) {
+                    break;
                 }
             }
+        }
 
         //This returns the most preferred language "q=1"
         $lang = static::getPreferredLanguage();
@@ -162,8 +163,8 @@ class Utility extends Common\SysUtility
             $lang = static::langDetect($HTTP_USER_AGENT, 2);
         }
         // 3. If we catch a valid language, configure it
-          if (!empty($lang)) {
-            $xoops_lang = isset($available_languages[$lang][1])?:'';
+        if (!empty($lang)) {
+            $xoops_lang = isset($available_languages[$lang][1]) ?: '';
         }
 
         return $xoops_lang;
@@ -292,7 +293,7 @@ class Utility extends Common\SysUtility
         $content = '';
         $i       = 1;
         if (!empty($block['display'])) { //mb
-            if (\in_array($block['display'], ['images', 'text'])) {
+            if (\in_array($block['display'], ['images', 'text'], true)) {
                 foreach ($block['languages'] as $name => $lang) {
                     $content .= '<a href="' . $block['url'] . $lang['name'] . '" title="' . $lang['desc'] . '">';
                     if ('images' === $block['display']) {

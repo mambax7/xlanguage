@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
  *
@@ -11,7 +12,6 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
@@ -26,16 +26,15 @@ use XoopsModules\Xlanguage\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var LanguageHandler $languageHandler */
-
 global $xlanguage, $xoopsConfig;
 
 $helper = Helper::getInstance();
 
-require $helper->path( 'include/vars.php');
+require $helper->path('include/vars.php');
 
 //$cookie_prefix = preg_replace("/[^a-z_0-9]+/i", "_", preg_replace("/(http(s)?:\/\/)?(www.)?/i", "", XOOPS_URL));
-$cookie_var    = XLANGUAGE_LANG_TAG;
-$utility       = new Utility();
+$cookie_var = XLANGUAGE_LANG_TAG;
+$utility    = new Utility();
 
 $xlanguage['action'] = false;
 $langTag             = Request::getString(XLANGUAGE_LANG_TAG, '', 'GET');
@@ -55,7 +54,6 @@ if (!empty($langTag)) {
         //    } else {
         //        $_SERVER['REQUEST_URI'] .= "?".XLANGUAGE_LANG_TAG."=".$xlanguage["lang"];
         //    }
-
     } elseif ($lang = $utility::detectLang()) {
         $xlanguage['lang'] = $lang;
     } else {

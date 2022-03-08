@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
@@ -12,7 +12,6 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
@@ -22,12 +21,12 @@ use XoopsModules\Xlanguage\Helper;
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
 $helper->loadLanguage('common');
 
-// ------------------- Informations ------------------- //
+// ------------------- Information ------------------- /
 $modversion = [
     'version'             => '3.1.3',
     'module_status'       => 'Final',
@@ -36,7 +35,7 @@ $modversion = [
     'description'         => _MI_XLANGUAGE_DESC,
     'official'            => 1, //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
     'author'              => 'phppp(D.J.)',
-    'credits'             => 'Adi Chiributa - webmaster@artistic.ro; wjue - http://www.wjue.org; GIJOE - http://www.peak.ne.jp, XOOPS Development Team',
+    'credits'             => 'Adi Chiributa - webmaster@artistic.ro; wjue - https://www.wjue.org; GIJOE - https://www.peak.ne.jp, XOOPS Development Team',
     'author_mail'         => 'author-email',
     'author_website_url'  => 'https://xoops.org',
     'author_website_name' => 'XOOPS',
@@ -70,7 +69,7 @@ $modversion = [
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '7.3',
+    'min_php'             => '7.4',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],

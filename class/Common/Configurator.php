@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Xlanguage\Common;
 
@@ -12,13 +12,11 @@ namespace XoopsModules\Xlanguage\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-
-
 /**
  * Configurator Class
  *
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     https://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
  */
 
@@ -65,4 +63,3 @@ class Configurator
         $this->icons = require \dirname(__DIR__, 2) . '/config/icons.php';
     }
 }
-

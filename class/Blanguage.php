@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Xlanguage;
 
@@ -14,7 +14,6 @@ namespace XoopsModules\Xlanguage;
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
@@ -23,19 +22,7 @@ use XoopsDatabaseFactory;
 use XoopsModules\Xlanguage;
 use XoopsObject;
 
-
-
-
-
-
-
-
-
-
-
-
-
-//require(XOOPS_ROOT_PATH."/class/xoopslists.php");
+//require XOOPS_ROOT_PATH."/class/xoopslists.php";
 //require XOOPS_ROOT_PATH.'/modules/xlanguage/include/vars.php';
 //require XOOPS_ROOT_PATH.'/modules/xlanguage/class/Utility.php';
 
@@ -104,7 +91,7 @@ class Blanguage extends XoopsObject
         return true;
     }
 
-    public function setBase()
+    public function setBase(): void
     {
         $this->isBase = true;
     }

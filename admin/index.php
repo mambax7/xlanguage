@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
  *
@@ -11,14 +12,12 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       XOOPS Team
  **/
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use Xmf\Yaml;
 use XoopsModules\Xlanguage\{
     Common,
     Common\TestdataButtons,
@@ -29,7 +28,6 @@ use XoopsModules\Xlanguage\{
 /** @var Admin $adminObject */
 /** @var Helper $helper */
 /** @var Utility $utility */
-
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 

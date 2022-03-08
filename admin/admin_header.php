@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
  *
@@ -11,19 +11,18 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       XOOPS Development Team
  **/
 
 //use XoopsModules\Xlanguage;
 use Xmf\Module\Admin;
-use XoopsModules\Xlanguage\{Helper
+use XoopsModules\Xlanguage\{
+    Helper
 };
 
 /** @var Helper $helper */
 /** @var Admin $adminObject */
-
 require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 require \dirname(__DIR__, 3) . '/include/cp_header.php';
@@ -37,8 +36,8 @@ $moduleDirName = \basename(\dirname(__DIR__));
 $helper      = Helper::getInstance();
 $adminObject = Admin::getInstance();
 
-//$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
-//$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
+//$pathIcon16    = \Xmf\Module\Admin::iconUrl('', '16');
+//$pathIcon32    = \Xmf\Module\Admin::iconUrl('', '32');
 //$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 // Load language files

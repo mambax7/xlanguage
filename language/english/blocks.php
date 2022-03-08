@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 //
 // Blocks
 define('_MB_XLANGUAGE_SELECT', 'Click to select your language');

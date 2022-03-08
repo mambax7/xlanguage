@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
  *
@@ -11,14 +12,14 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Xlanguage\{Helper,
+use XoopsModules\Xlanguage\{
+    Helper,
     LanguageHandler,
     Utility
 };
@@ -27,7 +28,6 @@ use XoopsModules\Xlanguage\{Helper,
 /** @var LanguageHandler $languageHandler */
 /** @var Utility $utility */
 /** @var Admin $adminObject */
-
 require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/vars.php';
@@ -179,7 +179,7 @@ xoops_cp_footer();
 /**
  * @param LanguageHandler $languageHandler
  */
-function languageList(LanguageHandler $languageHandler)
+function languageList(LanguageHandler $languageHandler): void
 {
     //    global $languageHandler, $xoopsModule;
 
