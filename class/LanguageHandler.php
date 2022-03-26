@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Xlanguage;
 
@@ -14,21 +14,22 @@ namespace XoopsModules\Xlanguage;
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
 
+use XoopsLists;
 use XoopsModules\Xlanguage;
+use XoopsObjectHandler;
 
 /**
  * Class LanguageHandler
  */
-class LanguageHandler extends \XoopsObjectHandler
+class LanguageHandler extends XoopsObjectHandler
 {
     public $cachedConfig;
 
-    public function loadConfig()
+    public function loadConfig(): void
     {
         $this->cachedConfig = $this->loadFileConfig();
     }
@@ -79,8 +80,8 @@ class LanguageHandler extends \XoopsObjectHandler
     public function getByName($name, $isBase = false)
     {
         $array = [];
-        $lang = null;
-        if (empty($name) || \preg_match("/[^a-zA-Z0-9\_\-]/", $name)) {
+        $lang  = null;
+        if (empty($name) || \preg_match('/[^a-zA-Z0-9\_\-]/', $name)) {
             return $lang;
         }
 
@@ -306,7 +307,7 @@ class LanguageHandler extends \XoopsObjectHandler
      */
     public function getXoopsLangList()
     {
-        return \XoopsLists::getLangList();
+        return XoopsLists::getLangList();
     }
 
     /**
@@ -378,15 +379,10 @@ class LanguageHandler extends \XoopsObjectHandler
             $this->createConfig();
         }
         if (!\is_readable($file_config)) {
-            $config = null;
-
-            return $config;
+            return null;
         }
         require $file_config;
-        if (isset(${\XLANGUAGE_CONFIG_VAR})) {
-            return ${\XLANGUAGE_CONFIG_VAR};
-        }
 
-        return false;
+        return ${\XLANGUAGE_CONFIG_VAR} ?? false;
     }
 }

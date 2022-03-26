@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Extended Language
  *
@@ -11,11 +11,8 @@
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @package         xlanguage
  * @author          trabis <lusopoemas@gmail.com>
  */
-
-
 
 /**
  * Xlanguage core preloads
@@ -29,10 +26,10 @@ class XlanguageCorePreload extends \XoopsPreloadItem
     /**
      * @param $args
      */
-    public static function eventCoreIncludeCommonLanguage($args)
+    public static function eventCoreIncludeCommonLanguage($args): void
     {
         global $xoopsConfig;
-        require_once dirname(__DIR__) . '/api.php';
+        require_once \dirname(__DIR__) . '/api.php';
     }
 
     // to add PSR-4 autoloader
@@ -40,7 +37,7 @@ class XlanguageCorePreload extends \XoopsPreloadItem
     /**
      * @param $args
      */
-    public static function eventCoreIncludeCommonEnd($args)
+    public static function eventCoreIncludeCommonEnd($args): void
     {
         require_once __DIR__ . '/autoloader.php';
     }

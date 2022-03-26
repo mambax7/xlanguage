@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * xLanguage module
@@ -12,14 +12,14 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       XOOPS Development Team
  **/
-use Xmf\Module\Admin;
-/** @var Admin $adminObject */
 
-require __DIR__ . '/admin_header.php';
+use Xmf\Module\Admin;
+
+/** @var Admin $adminObject */
+require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
 $adminObject->displayNavigation(basename(__FILE__));

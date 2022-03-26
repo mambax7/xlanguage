@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
@@ -12,7 +12,6 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/

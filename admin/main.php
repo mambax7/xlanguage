@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
  *
@@ -11,7 +12,6 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
@@ -23,11 +23,11 @@ use XoopsModules\Xlanguage\{
     LanguageHandler,
     Utility
 };
+
 /** @var Helper $helper */
 /** @var LanguageHandler $languageHandler */
 /** @var Utility $utility */
 /** @var Admin $adminObject */
-
 require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/vars.php';
@@ -46,7 +46,7 @@ if (isset($_GET)) {
 
 define('XLANG_CONFIG_LINK', "<a href='main.php' target='_self'>" . _AM_XLANGUAGE_CONFIG . '</a>');
 
-$helper = Helper::getInstance();
+$helper          = Helper::getInstance();
 $languageHandler = $helper->getHandler('Language');
 $languageHandler->loadConfig();
 
@@ -78,7 +78,7 @@ switch ($op) {
         } else {
             $lang = $languageHandler->create(true, $isBase);
         }
-        $lang_name = preg_replace("/[^a-zA-Z0-9\_\-]/", '', $lang_name);
+        $lang_name = preg_replace('/[^a-zA-Z0-9\_\-]/', '', $lang_name);
 
         $lang->setVar('lang_name', $lang_name);
         $lang->setVar('lang_desc', $lang_desc);
@@ -179,7 +179,7 @@ xoops_cp_footer();
 /**
  * @param LanguageHandler $languageHandler
  */
-function languageList(LanguageHandler $languageHandler)
+function languageList(LanguageHandler $languageHandler): void
 {
     //    global $languageHandler, $xoopsModule;
 

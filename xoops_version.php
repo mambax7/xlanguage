@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * xLanguage module (eXtensible Language Management For XOOPS)
@@ -12,7 +12,6 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package      xlanguage
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
  **/
@@ -22,22 +21,21 @@ use XoopsModules\Xlanguage\Helper;
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-/** @var \XoopsModules\Xlanguage\Helper $helper */
 $helper = Helper::getInstance();
 $helper->loadLanguage('common');
 
-// ------------------- Informations ------------------- //
+// ------------------- Information ------------------- /
 $modversion = [
-    'version'             => 3.1,
-    'module_status'       => 'RC 2',
-    'release_date'        => '2020/09/10',
+    'version'             => '3.1.4',
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2022/02/20',
     'name'                => _MI_XLANGUAGE_NAME,
     'description'         => _MI_XLANGUAGE_DESC,
     'official'            => 1, //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
     'author'              => 'phppp(D.J.)',
-    'credits'             => 'Adi Chiributa - webmaster@artistic.ro; wjue - http://www.wjue.org; GIJOE - http://www.peak.ne.jp, XOOPS Development Team',
+    'credits'             => 'Adi Chiributa - webmaster@artistic.ro; wjue - https://www.wjue.org; GIJOE - https://www.peak.ne.jp, XOOPS Development Team',
     'author_mail'         => 'author-email',
     'author_website_url'  => 'https://xoops.org',
     'author_website_name' => 'XOOPS',
@@ -71,7 +69,7 @@ $modversion = [
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             =>  '7.2',
+    'min_php'             => '7.4',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
@@ -81,7 +79,7 @@ $modversion = [
     'adminindex'          => 'admin/index.php',
     'adminmenu'           => 'admin/menu.php',
     // ------------------- Main Menu -------------------
-    'hasMain'             => 1,
+    'hasMain'             => 0,
 
     // ------------------- Install/Update -------------------
     //    'onInstall'           => 'include/oninstall.php',

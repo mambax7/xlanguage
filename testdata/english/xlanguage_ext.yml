@@ -1,0 +1,9 @@
+-
+    lang_id: '1'
+    weight: '999'
+    lang_name: Canada
+    lang_desc: Canada
+    lang_code: en
+    lang_charset: UTF-8
+    lang_image: canada.gif
+    lang_base: english
