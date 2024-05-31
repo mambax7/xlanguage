@@ -48,7 +48,7 @@ if (is_object($helper->getModule())) {
 }
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
-    define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
+    define($moduleDirNameUpper . '_' . 'DIRNAME', basename(dirname(__DIR__)));
     define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
     define($moduleDirNameUpper . '_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
     define($moduleDirNameUpper . '_URL', XOOPS_URL . '/modules/' . $moduleDirName . '/');
@@ -82,3 +82,11 @@ if (is_object($helper->getModule())) {
     $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
     $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
 }
+
+xoops_loadLanguage('main', $moduleDirName);
+if (class_exists('D3LanguageManager')) {
+    require_once XOOPS_TRUST_PATH . '/libs/altsys/class/D3LanguageManager.class.php';
+    $langman = D3LanguageManager::getInstance();
+    $langman->read('main.php', $moduleDirName);
+}
+

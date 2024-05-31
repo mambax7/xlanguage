@@ -100,7 +100,7 @@ class Utility extends Common\SysUtility
      */
     public static function langDetect($str = '', $envType = '')
     {
-        require dirname(__DIR__) . '/include/vars.php';
+        require \dirname(__DIR__) . '/include/vars.php';
         $lang = '';
 
         if (!empty($available_languages)) {
@@ -145,11 +145,10 @@ class Utility extends Common\SysUtility
         // 1. try to findout user's language by checking its HTTP_ACCEPT_LANGUAGE variable
 
         if (empty($lang) && !empty($HTTP_ACCEPT_LANGUAGE)) {
-            $accepted = explode(',', $HTTP_ACCEPT_LANGUAGE);
-            reset($accepted);
+            $accepted = \explode(',', $HTTP_ACCEPT_LANGUAGE);
             foreach ($accepted as $iValue) {
                 $lang = static::langDetect($iValue, 1);
-                if (strncasecmp($lang, 'en', 2)) {
+                if (\strncasecmp($lang, 'en', 2)) {
                     break;
                 }
             }
@@ -225,7 +224,7 @@ class Utility extends Common\SysUtility
         // escape brackets inside of <textarea></textarea>
         $patterns[] = '/(\<textarea\b[^>]*>[^\<]*\<\/textarea>)/isU';
 
-        $text = \preg_replace_callback($patterns, 'static::escapeBracketMultiLang', $text);
+        $text = \preg_replace_callback($patterns, [__CLASS__, 'escapeBracketMultiLang'], $text);
 
         // create the pattern between language tags
         $pqhtmltags  = \explode(',', preg_quote(\XLANGUAGE_TAGS_RESERVED, '/'));

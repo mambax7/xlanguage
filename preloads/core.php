@@ -37,7 +37,7 @@ class XlanguageCorePreload extends \XoopsPreloadItem
     /**
      * @param $args
      */
-    public static function eventCoreIncludeCommonEnd($args): void
+    public static function eventCoreIncludeCommonEnd(array $args): void
     {
         require_once __DIR__ . '/autoloader.php';
     }

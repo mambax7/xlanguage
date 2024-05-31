@@ -35,7 +35,7 @@ if (!defined('XLANGUAGE_TAGS_RESERVED')) {
 /**
  * All the supported languages have to be listed in the array below.
  * 1. The key must be the "official" ISO 639 language code and, if required,
- *     the dialect code. It can also contains some informations about the
+ *     the dialect code. It can also contains some information about the
  *     charset (see the Russian case).
  * 2. The first of the values associated to the key is used in a regular
  *     expression to find some keywords corresponding to the language inside two

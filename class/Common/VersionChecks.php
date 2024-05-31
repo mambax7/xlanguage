@@ -16,7 +16,7 @@ use XoopsModule;
 
 /**
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     https://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      mamba <mambax7@gmail.com>
  */
 trait VersionChecks
@@ -45,9 +45,9 @@ trait VersionChecks
         }
         $success = true;
 
-        if (\version_compare($currentVer, $requiredVer, '<')) {
+        if ($module->versionCompare($currentVer, $requiredVer, '<')) {
             $success = false;
-            $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_XOOPS'), $requiredVer, $currentVer));
+            $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR_BAD_XOOPS'), $requiredVer, $currentVer));
         }
 
         return $success;
@@ -77,8 +77,8 @@ trait VersionChecks
         $reqVer = &$module->getInfo('min_php');
 
         if (false !== $reqVer && '' !== $reqVer && !\is_array($reqVer)) {
-            if (\version_compare($verNum, $reqVer, '<')) {
-                $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
+            if ($module->versionCompare($verNum, $reqVer, '<')) {
+                $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR_BAD_PHP'), $reqVer, $verNum));
                 $success = false;
             }
         }
@@ -99,6 +99,7 @@ trait VersionChecks
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
+        $module             = $helper->getModule();
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
         //        $repository         = 'XoopsModules25x/publisher'; //for testing only
@@ -134,7 +135,7 @@ trait VersionChecks
                     $moduleVersion = \str_replace(' ', '', \mb_strtolower($moduleVersion));
                     //                    $moduleVersion = '1.0'; //for testing only
                     //                    $moduleDirName = 'publisher'; //for testing only
-                    if (!$prerelease && \version_compare($moduleVersion, $latestVersion, '<')) {
+                    if (!$prerelease && $module->versionCompare($moduleVersion, $latestVersion, '<')) {
                         $ret   = [];
                         $ret[] = $update;
                         $ret[] = $latestVersionLink;

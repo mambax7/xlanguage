@@ -187,7 +187,7 @@ function languageList(LanguageHandler $languageHandler): void
 
     $lang_list = $languageHandler->getAllList();
 
-    if ($lang_list && is_array($lang_list)) {
+    if ($lang_list && \is_array($lang_list)) {
         echo "<table width='100%' border='0' cellspacing='1' class='outer'><tr><td class=\"odd\">";
         echo "<div style='text-align: center;'><b><h4>" . _AM_XLANGUAGE_LANGLIST . '</h4></b><br>';
         echo "<table class='outer' width='100%' border='0' cellpadding='0' cellspacing='0' ><tr class='bg2'><th align='center'>"

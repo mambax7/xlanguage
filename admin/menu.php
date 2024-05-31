@@ -17,13 +17,18 @@
  **/
 
 use Xmf\Module\Admin;
-use XoopsModules\Xlanguage;
+use XoopsModules\Xlanguage\{
+    Helper
+};
 
-/** @var Xlanguage\Helper $helper */
+/** @var Helper $helper */
+
+include \dirname(__DIR__) . '/preloads/autoloader.php';
+
 $moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$helper = Xlanguage\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 

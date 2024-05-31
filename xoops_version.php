@@ -29,8 +29,8 @@ $helper->loadLanguage('common');
 // ------------------- Information ------------------- /
 $modversion = [
     'version'             => '3.1.4',
-    'module_status'       => 'Beta 1',
-    'release_date'        => '2022/02/20',
+    'module_status'       => 'Beta2',
+    'release_date'        => '2024/05/31',
     'name'                => _MI_XLANGUAGE_NAME,
     'description'         => _MI_XLANGUAGE_DESC,
     'official'            => 1, //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
@@ -70,7 +70,7 @@ $modversion = [
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
     'min_php'             => '7.4',
-    'min_xoops'           => '2.5.10',
+    'min_xoops'           => '2.5.11',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
     // ------------------- Admin Menu -------------------

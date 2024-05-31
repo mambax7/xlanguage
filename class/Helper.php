@@ -13,7 +13,6 @@ namespace XoopsModules\Xlanguage;
  */
 
 use RuntimeException;
-use XoopsDatabaseFactory;
 
 /**
  * @copyright    XOOPS Project (https://xoops.org)
@@ -75,10 +74,10 @@ class Helper extends \Xmf\Module\Helper
             throw new RuntimeException("Class '$class' not found");
         }
         /** @var \XoopsMySQLDatabase $db */
-        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $helper = self::getInstance();
         $ret    = new $class($db, $helper);
-        $this->addLog("Getting handler '{$name}'");
+        $this->addLog("Getting handler '$name'");
 
         return $ret;
     }

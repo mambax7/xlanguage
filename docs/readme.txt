@@ -30,14 +30,14 @@ User guide
 ----------
 1 install "xlanguage" as a regular module
 
-2 select basic langauges (from an available language list) and add extended languages (upon a selected basic language) from module admin page
+2 select basic languages (from an available language list) and add extended languages (upon a selected basic language) from module admin page
     for instance, to make language switch between: English, Simplified Chinese (gb2312), Traditional Chinese (big5) and UTF-8 Chinese:
     base 1:     name: english;         description(optional): English;             charset: iso-8859-1;     code: en (or anyother like "xen", not a true language code, just the tag for indicating English content)
     base 2:     name: schinese;     description(optional): Simplified Chinese;     charset: gb2312;         code: zh (or anyother like "sc", not a true language code, just the tag for indicating Chinese content)
     extended lang of schinese 1: name: tchinese;     description(optional): Traditional Chinese;         charset: big5     code: zh-TW (the true language code of Traditional Chinese)        base: schinese
     extended lang of schinese 2: name: utf8;         description(optional): Simplified Chinese UTF-8;     charset: utf-8     code: zh-CN (the true language code of Simplified Chinese)        base: schinese
 
-3 make the block "langauge selection" visible
+3 make the block "language selection" visible
 
 4 add multilingual content with according tags sepcified for each base language (in step 4) to your modules, templates or themes[Skip this step if you do not use multi-language content display but only use charset encoding]:
     wrap content of each language with respective tag specified in step 4:
@@ -57,7 +57,7 @@ User guide
     3) insert "<{$smarty.const.XLANGUAGE_SWITCH_CODE}>" into your theme or template files anywhere you prefer it present
 
 
-xlangauge description
+xlanguage description
 -------------------------
 An eXtensible Multi-language content and character encoding Management plugin
 Multilanguage management handles displaying contents of different languages, like English, French and Chinese
@@ -80,7 +80,7 @@ What xlanguage can NOT do
 Features
 --------
 1 auto-detection of visitor's language on his first visitor
-2 memorizing users' langauge preferences
+2 memorizing users' language preferences
 3 switching contents of different languges/encoding sets on-fly
 4 supporting M-S-M mode for character encoding handler
 

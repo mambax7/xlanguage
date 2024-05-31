@@ -61,7 +61,9 @@ function xoops_module_update_xlanguage(\XoopsModule $module, $previousVersion = 
     $utility      = new Utility();
     $configurator = new Configurator();
 
+
     if ($previousVersion < 310) {
+
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
             foreach ($configurator->templateFolders as $folder) {
@@ -72,7 +74,7 @@ function xoops_module_update_xlanguage(\XoopsModule $module, $previousVersion = 
                         foreach ($templateList as $k => $v) {
                             $fileInfo = new \SplFileInfo($templateFolder . $v);
                             if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
-                                if (is_file($templateFolder . $v)) {
+                                if (\is_file($templateFolder . $v)) {
                                     unlink($templateFolder . $v);
                                 }
                             }
@@ -87,7 +89,7 @@ function xoops_module_update_xlanguage(\XoopsModule $module, $previousVersion = 
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->oldFiles) as $i) {
                 $tempFile = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFiles[$i]);
-                if (is_file($tempFile)) {
+                if (\is_file($tempFile)) {
                     unlink($tempFile);
                 }
             }
@@ -122,15 +124,28 @@ function xoops_module_update_xlanguage(\XoopsModule $module, $previousVersion = 
             }
         }
 
-        //delete .html entries from the tpl table
-        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . '\' AND `tpl_file` LIKE \'%.html%\'';
-        $GLOBALS['xoopsDB']->queryF($sql);
+//        //delete .html entries from the tpl table
+//        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+//        $GLOBALS['xoopsDB']->queryF($sql);
+//
+//        //delete old .html entries from the newblocks table
+//        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('newblocks') . " WHERE `mid` = '" . $module->getVar('mid') . "' AND `template` LIKE '%.html%'";
+//        $GLOBALS['xoopsDB']->queryF($sql);
 
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
         return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
+
+    //delete .html entries from the tpl table
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
+
+    //delete old .html entries from the newblocks table
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('newblocks') . " WHERE `mid` = '" . $module->getVar('mid') . "' AND `template` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
+
 
     return true;
 }

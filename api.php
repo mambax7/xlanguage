@@ -28,9 +28,11 @@ use XoopsModules\Xlanguage\{
 /** @var LanguageHandler $languageHandler */
 global $xlanguage, $xoopsConfig;
 
+require_once __DIR__ . '/preloads/autoloader.php';
+
 $helper = Helper::getInstance();
 
-require $helper->path('include/vars.php');
+require __DIR__ . '/include/vars.php';
 
 //$cookie_prefix = preg_replace("/[^a-z_0-9]+/i", "_", preg_replace("/(http(s)?:\/\/)?(www.)?/i", "", XOOPS_URL));
 $cookie_var = XLANGUAGE_LANG_TAG;
@@ -41,7 +43,7 @@ $langTag             = Request::getString(XLANGUAGE_LANG_TAG, '', 'GET');
 if (!empty($langTag)) {
     if (!empty($_GET[XLANGUAGE_LANG_TAG])) {
         $cookie_path = '/';
-        setcookie($cookie_var, $langTag, time() + 3600 * 24 * 30, $cookie_path, '', 0);
+        setcookie($cookie_var, $langTag, time() + 3600 * 24 * 30, $cookie_path, '', false);
         $xlanguage['lang'] = $langTag;
     } elseif (!empty($_COOKIE[$cookie_var])) {
         $xlanguage['lang'] = $_COOKIE[$cookie_var];

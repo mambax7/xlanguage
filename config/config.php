@@ -60,7 +60,7 @@ return (object)[
 
     'templateFolders' => [
         '/templates/',
-        //            '/templates/blocks/',
+        '/templates/blocks/',
         //            '/templates/admin/'
     ],
     'oldFiles'        => [

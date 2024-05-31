@@ -31,6 +31,14 @@ use XoopsObject;
  */
 class Blanguage extends XoopsObject
 {
+    private $lang_id;
+    private $weight;
+    private $lang_name;
+    private $lang_desc;
+    private $lang_code;
+    private $lang_charset;
+    private $lang_image;
+
     public $isBase = false;
     public $db;
     public $table;
@@ -42,7 +50,7 @@ class Blanguage extends XoopsObject
     public function __construct($isBase = false)
     {
         $this->isBase = $isBase;
-        $this->db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->table  = $this->db->prefix('xlanguage_base');
         $this->initVar('lang_id', \XOBJ_DTYPE_INT);
         $this->initVar('weight', \XOBJ_DTYPE_INT);

@@ -35,7 +35,7 @@ define('_MI_XLANGUAGE_OVERVIEW', 'Overview');
 
 //define('_MI_XLANGUAGE_HELP_DIR', __DIR__);
 
-//help multi-page
+//help multipage
 define('_MI_XLANGUAGE_DISCLAIMER', 'Disclaimer');
 define('_MI_XLANGUAGE_LICENSE', 'License');
 define('_MI_XLANGUAGE_SUPPORT', 'Support');
