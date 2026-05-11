@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
@@ -29,12 +29,12 @@ $helper->loadLanguage('common');
 // ------------------- Information ------------------- /
 $modversion = [
     'version'             => '3.1.4',
-    'module_status'       => 'Beta2',
-    'release_date'        => '2024/05/31',
+    'module_status'       => 'RC 1',
+    'release_date'        => '2026/05/11',
     'name'                => _MI_XLANGUAGE_NAME,
     'description'         => _MI_XLANGUAGE_DESC,
     'official'            => 1, //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
-    'author'              => 'phppp(D.J.)',
+    'author'              => 'phppp(D.J.), Mamba',
     'credits'             => 'Adi Chiributa - webmaster@artistic.ro; wjue - https://www.wjue.org; GIJOE - https://www.peak.ne.jp, XOOPS Development Team',
     'author_mail'         => 'author-email',
     'author_website_url'  => 'https://xoops.org',
@@ -69,10 +69,10 @@ $modversion = [
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '7.4',
-    'min_xoops'           => '2.5.11',
+    'min_php'             => '8.2',
+    'min_xoops'           => '2.7.0',
     'min_admin'           => '1.2',
-    'min_db'              => ['mysql' => '5.5'],
+    'min_db'              => ['mysql' => '5.7'],
     // ------------------- Admin Menu -------------------
     'system_menu'         => 1,
     'hasAdmin'            => 1,
@@ -128,8 +128,8 @@ $modversion['blocks'][] = [
  */
 $modversion['config'][] = [
     'name'        => 'displaySampleButton',
-    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
-    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'title'       => '_CO_XLANGUAGE_SHOW_SAMPLE_BUTTON',
+    'description' => '_CO_XLANGUAGE_SHOW_SAMPLE_BUTTON_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -140,8 +140,8 @@ $modversion['config'][] = [
  */
 $modversion['config'][] = [
     'name'        => 'displayDeveloperTools',
-    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
-    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'title'       => '_CO_XLANGUAGE_SHOW_DEV_TOOLS',
+    'description' => '_CO_XLANGUAGE_SHOW_DEV_TOOLS_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,

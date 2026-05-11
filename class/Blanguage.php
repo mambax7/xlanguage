@@ -12,7 +12,7 @@ namespace XoopsModules\Xlanguage;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
@@ -38,8 +38,6 @@ class Blanguage extends XoopsObject
     private $lang_code;
     private $lang_charset;
     private $lang_image;
-
-    public $isBase = false;
     public $db;
     public $table;
 
@@ -47,10 +45,9 @@ class Blanguage extends XoopsObject
      * Blanguage constructor.
      * @param bool $isBase
      */
-    public function __construct($isBase = false)
+    public function __construct(public $isBase = false)
     {
-        $this->isBase = $isBase;
-        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db     = XoopsDatabaseFactory::getDatabaseConnection();
         $this->table  = $this->db->prefix('xlanguage_base');
         $this->initVar('lang_id', \XOBJ_DTYPE_INT);
         $this->initVar('weight', \XOBJ_DTYPE_INT);
@@ -75,7 +72,7 @@ class Blanguage extends XoopsObject
                 case \XOBJ_DTYPE_EMAIL:
                     $cleanv = $v['changed'] ? $cleanv : '';
                     if (!isset($v['not_gpc']) || !$v['not_gpc']) {
-                        $cleanv = $this->db->quoteString($cleanv);
+                        $cleanv = $this->db->quote((string) $cleanv);
                     }
                     break;
                 case \XOBJ_DTYPE_INT:

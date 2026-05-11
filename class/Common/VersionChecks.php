@@ -15,7 +15,7 @@ namespace XoopsModules\Xlanguage\Common;
 use XoopsModule;
 
 /**
- * @copyright   XOOPS Project (https://xoops.org)
+ * @copyright   2000-2026 XOOPS Project (https://xoops.org)
  * @license     GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      mamba <mambax7@gmail.com>
  */
@@ -28,7 +28,7 @@ trait VersionChecks
      * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
+    public static function checkVerXoops(?XoopsModule $module = null, $requiredVer = null)
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -47,7 +47,7 @@ trait VersionChecks
 
         if ($module->versionCompare($currentVer, $requiredVer, '<')) {
             $success = false;
-            $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR_BAD_XOOPS'), $requiredVer, $currentVer));
+            $module->setErrors(\sprintf(\constant('_CO_XLANGUAGE_ERROR_BAD_XOOPS'), $requiredVer, $currentVer));
         }
 
         return $success;
@@ -60,7 +60,7 @@ trait VersionChecks
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerPhp(XoopsModule $module = null)
+    public static function checkVerPhp(?XoopsModule $module = null)
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
@@ -74,11 +74,11 @@ trait VersionChecks
         $success = true;
 
         $verNum = \PHP_VERSION;
-        $reqVer = &$module->getInfo('min_php');
+        $reqVer = $module->getInfo('min_php');
 
         if (false !== $reqVer && '' !== $reqVer && !\is_array($reqVer)) {
-            if ($module->versionCompare($verNum, $reqVer, '<')) {
-                $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR_BAD_PHP'), $reqVer, $verNum));
+            if (\version_compare($verNum, $reqVer, '<')) {
+                $module->setErrors(\sprintf(\constant('_CO_XLANGUAGE_ERROR_BAD_PHP'), $reqVer, $verNum));
                 $success = false;
             }
         }
@@ -99,7 +99,6 @@ trait VersionChecks
     {
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-        $module             = $helper->getModule();
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
         //        $repository         = 'XoopsModules25x/publisher'; //for testing only
@@ -122,7 +121,7 @@ trait VersionChecks
                     $latestVersion     = $file[0]->tag_name;
                     $prerelease        = $file[0]->prerelease;
                     if ('master' !== $latestVersionLink) {
-                        $update = \constant('CO_' . $moduleDirNameUpper . '_' . 'NEW_VERSION') . $latestVersion;
+                        $update = \constant('_CO_XLANGUAGE_NEW_VERSION') . $latestVersion;
                     }
                     //"PHP-standardized" version
                     $latestVersion = \mb_strtolower($latestVersion);
@@ -135,7 +134,7 @@ trait VersionChecks
                     $moduleVersion = \str_replace(' ', '', \mb_strtolower($moduleVersion));
                     //                    $moduleVersion = '1.0'; //for testing only
                     //                    $moduleDirName = 'publisher'; //for testing only
-                    if (!$prerelease && $module->versionCompare($moduleVersion, $latestVersion, '<')) {
+                    if (!$prerelease && \version_compare($moduleVersion, $latestVersion, '<')) {
                         $ret   = [];
                         $ret[] = $update;
                         $ret[] = $latestVersionLink;

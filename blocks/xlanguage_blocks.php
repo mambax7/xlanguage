@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
@@ -56,7 +56,7 @@ function b_xlanguage_select_show($options)
         }
         $languages[$lang_name]['name']  = $lang_name;
         $languages[$lang_name]['desc']  = $lang['base']->getVar('lang_desc');
-        $languages[$lang_name]['image'] = XOOPS_URL . '/modules/xlanguage/assets/images/' . $lang['base']->getVar('lang_image');
+        $languages[$lang_name]['image'] = XOOPS_URL . '/modules/xlanguage/assets/flags/' . $lang['base']->getVar('lang_image');
         if (!isset($lang['ext']) || count($lang['ext']) < 1) {
             continue;
         }
@@ -64,7 +64,7 @@ function b_xlanguage_select_show($options)
             $langName                      = $ext->getVar('lang_name');
             $languages[$langName]['name']  = $langName;
             $languages[$langName]['desc']  = $ext->getVar('lang_desc');
-            $languages[$langName]['image'] = XOOPS_URL . '/modules/xlanguage/assets/images/' . $ext->getVar('lang_image');
+            $languages[$langName]['image'] = XOOPS_URL . '/modules/xlanguage/assets/flags/' . $ext->getVar('lang_image');
         }
     }
 

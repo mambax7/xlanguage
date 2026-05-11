@@ -22,7 +22,7 @@ namespace XoopsModules\Xlanguage\Common;
  * @author       Mamba <mambax7@gmail.com>
  */
 
-
+use XoopsFormEditor;
 use XoopsModules\Xlanguage\{
     Helper
 };
@@ -64,12 +64,12 @@ class SysUtility
         $open_tags = [];
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
+            if (mb_strlen((string) \preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
             \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
-            $total_length = \mb_strlen($ending);
+            $total_length = mb_strlen($ending);
             $truncate     = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
@@ -93,7 +93,7 @@ class SysUtility
                     $truncate .= $line_matchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = \mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = mb_strlen((string) \preg_replace('/&[0-9a-z]{2,8};|&#\d{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
                     $left            = $length - $total_length;
@@ -104,7 +104,7 @@ class SysUtility
                         foreach ($entities[0] as $entity) {
                             if ($left >= $entity[1] + 1 - $entities_length) {
                                 $left--;
-                                $entities_length += \mb_strlen($entity[0]);
+                                $entities_length += mb_strlen($entity[0]);
                             } else {
                                 // no more characters left
                                 break;
@@ -175,9 +175,9 @@ class SysUtility
 
         if (\class_exists('XoopsFormEditor')) {
             if ($isAdmin) {
-                $descEditor = new \XoopsFormEditor(\ucfirst((string) $options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
+                $descEditor = new XoopsFormEditor(\ucfirst((string) $options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
             } else {
-                $descEditor = new \XoopsFormEditor(\ucfirst((string) $options['name']), $helper->getConfig('editorUser'), $options, $nohtml = false, $onfailure = 'textarea');
+                $descEditor = new XoopsFormEditor(\ucfirst((string) $options['name']), $helper->getConfig('editorUser'), $options, $nohtml = false, $onfailure = 'textarea');
             }
         } else {
             $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst((string) $options['name']), $options['name'], $options['value'], 5, 50);
@@ -200,7 +200,7 @@ class SysUtility
                 $sql ="SHOW COLUMNS FROM   $table LIKE '$fieldname'";
         $result = self::queryFAndCheck($xoopsDB, $sql);
 
-        return ($xoopsDB->getRowsNum($result) > 0);
+        return ((($xoopsDB->isResultSet($result) && ($result instanceof \mysqli_result)) ? $xoopsDB->getRowsNum($result) : 0) > 0);
     }
 
     /**
@@ -212,13 +212,14 @@ class SysUtility
      */
     public static function cloneRecord($tableName, $id_field, $id)
     {
-        $new_id = false;
+        $new_id    = false;
+        $tempTable = [];
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
         $sql    = "SELECT * FROM $table WHERE $id_field='" . $id . "' ";
         $result = $GLOBALS['xoopsDB']->query($sql);
-        if ($GLOBALS['xoopsDB']->isResultSet($result)) {
-            $tempTable = $GLOBALS['xoopsDB']->fetchArray($result, \MYSQLI_ASSOC);
+        if ($GLOBALS['xoopsDB']->isResultSet($result) && ($result instanceof \mysqli_result)) {
+            $tempTable = (($GLOBALS['xoopsDB']->isResultSet($result) && ($result instanceof \mysqli_result)) ? $GLOBALS['xoopsDB']->fetchArray($result, \MYSQLI_ASSOC) : false);
         }
         if (!$tempTable) {
             \trigger_error($GLOBALS['xoopsDB']->error());
@@ -227,11 +228,10 @@ class SysUtility
         unset($tempTable[$id_field]);
         // insert cloned copy of the original  record
         $sql    = "INSERT INTO $table (" . \implode(', ', \array_keys($tempTable)) . ") VALUES ('" . \implode("', '", $tempTable) . "')";
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-if (!$GLOBALS['xoopsDB']->isResultSet($result)) {
-   \trigger_error(\sprintf(\_DB_QUERY_ERROR, $sql) . $GLOBALS['xoopsDB']->error(), \E_USER_ERROR);
-
-}
+        $result = $GLOBALS['xoopsDB']->exec($sql);
+        if (!$result) {
+            \trigger_error(\sprintf(\_DB_QUERY_ERROR, $sql) . $GLOBALS['xoopsDB']->error(), \E_USER_ERROR);
+        }
         // Return the new id
         $new_id = $GLOBALS['xoopsDB']->getInsertId();
 
@@ -248,11 +248,12 @@ if (!$GLOBALS['xoopsDB']->isResultSet($result)) {
     {
         $ret    = false;
         $trace = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+        \trigger_error(__FUNCTION__ . " is deprecated, called from {$trace[0]['file']} line {$trace[0]['line']}");
         $GLOBALS['xoopsLogger']->addDeprecated(
             \basename(\dirname(__DIR__, 2)) . ' Module: ' . __FUNCTION__ . ' function is deprecated, please use Xmf\Database\Tables method(s) instead.' . " Called from {$trace[0]['file']}line {$trace[0]['line']}"
         );
-        $sql    = "SHOW TABLES LIKE '$tablename'";
-        $result = self::queryFAndCheck($GLOBALS['xoopsDB'], $sql);
+$sql = "SHOW TABLES LIKE '$tablename'";
+$result = self::queryFAndCheck($GLOBALS['xoopsDB'], $sql);
 
         return $ret;
     }
@@ -269,9 +270,9 @@ if (!$GLOBALS['xoopsDB']->isResultSet($result)) {
      */
     public static function queryAndCheck(\XoopsMySQLDatabase $xoopsDB, string $sql, $limit = 0, $start = 0): \mysqli_result
     {
-        $result = $xoopsDB->query($sql, $limit, $start);
+        $result = $xoopsDB->query($sql);
 
-        if (!$xoopsDB->isResultSet($result)) {
+        if (!$xoopsDB->isResultSet($result) || !($result instanceof \mysqli_result)) {
             throw new \RuntimeException(
                 \sprintf(\_DB_QUERY_ERROR, $sql) . $xoopsDB->error(), \E_USER_ERROR);
         }
@@ -280,7 +281,7 @@ if (!$GLOBALS['xoopsDB']->isResultSet($result)) {
     }
 
     /**
-     * QueryF and check if the result is a valid result set
+     * Query and check if the result is a valid result set
      *
      * @param \XoopsMySQLDatabase $xoopsDB XOOPS Database
      * @param string              $sql     a valid MySQL query
@@ -291,9 +292,9 @@ if (!$GLOBALS['xoopsDB']->isResultSet($result)) {
      */
     public static function queryFAndCheck(\XoopsMySQLDatabase $xoopsDB, string $sql, $limit = 0, $start = 0): \mysqli_result
     {
-        $result = $xoopsDB->queryF($sql, $limit, $start);
+        $result = $xoopsDB->query($sql);
 
-        if (!$xoopsDB->isResultSet($result)) {
+        if (!$xoopsDB->isResultSet($result) || !($result instanceof \mysqli_result)) {
             throw new \RuntimeException(
                 \sprintf(\_DB_QUERY_ERROR, $sql) . $xoopsDB->error(), \E_USER_ERROR);
         }

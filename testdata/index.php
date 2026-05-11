@@ -8,7 +8,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright       XOOPS Project (https://xoops.org)
+ * @copyright       2000-2026 XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
@@ -47,7 +47,7 @@ switch ($op) {
             loadSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM'), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', constant('_CO_XLANGUAGE_LOAD_SAMPLEDATA_CONFIRM'), constant('_CO_XLANGUAGE_CONFIRM'));
             xoops_cp_footer();
         }
         break;
@@ -62,7 +62,7 @@ switch ($op) {
             clearSampleData();
         } else {
             xoops_cp_header();
-            xoops_confirm(['ok' => 1, 'op' => 'clear'], 'index.php', sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA')), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+            xoops_confirm(['ok' => 1, 'op' => 'clear'], 'index.php', sprintf(constant('_CO_XLANGUAGE_CLEAR_SAMPLEDATA')), constant('_CO_XLANGUAGE_CONFIRM'));
             xoops_cp_footer();
         }
         break;
@@ -96,11 +96,16 @@ function loadSampleData(): void
     // load permissions
     $table     = 'group_permission';
     $tabledata = Yaml::readWrapped($language . $table . '.yml');
+
+    if (false === $tabledata) {
+        \redirect_header('../admin/index.php', 3, \constant('_CO_XLANGUAGE_LOAD_SAMPLEDATA_FAILURE'));
+    }
+
     $mid       = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid');
     loadTableFromArrayWithReplace($table, $tabledata, 'gperm_modid', $mid);
 
     //  ---  COPY test folder files ---------------
-    if ($configurator->copyTestFolders && \is_array($configurator->copyTestFolders)) {
+    if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
         //        $file =  \dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
@@ -108,7 +113,7 @@ function loadSampleData(): void
             $utility::rcopy($src, $dest);
         }
     }
-    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('_CO_XLANGUAGE_LOAD_SAMPLEDATA_SUCCESS'));
 }
 
 function saveSampleData(): void
@@ -138,7 +143,7 @@ function saveSampleData(): void
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
 
-    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('_CO_XLANGUAGE_SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function exportSchema(): void
@@ -151,9 +156,9 @@ function exportSchema(): void
         //        $migrate = new Migrate($moduleDirName);
         //        $migrate->saveCurrentSchema();
         //
-        //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    } catch (\Throwable $e) {
-        exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
+        //        redirect_header('../admin/index.php', 1, constant('_CO_XLANGUAGE_EXPORT_SCHEMA_SUCCESS'));
+    } catch (\Throwable) {
+        exit(constant('_CO_XLANGUAGE_EXPORT_SCHEMA_ERROR'));
     }
 }
 
@@ -166,10 +171,10 @@ function exportSchema(): void
  *                       Each element of the outer array represents a single table row.
  *                       Each row is an associative array in 'column' => 'value' format.
  * @param string $search name of column for which the value should be replaced
- * @param        $replace
+ * @param int $mid
  * @return int number of rows inserted
  */
-function loadTableFromArrayWithReplace($table, $data, $search, $replace)
+function loadTableFromArrayWithReplace(string $table, array $data, string $search, int $mid): int
 {
     /** @var \XoopsMySQLDatabase $db */
     $db = \XoopsDatabaseFactory::getDatabaseConnection();
@@ -177,9 +182,9 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
     $prefixedTable = $db->prefix($table);
     $count         = 0;
 
-    $sql = 'DELETE FROM ' . $prefixedTable . ' WHERE `' . $search . '`=' . $db->quote($replace);
+    $sql = 'DELETE FROM ' . $prefixedTable . ' WHERE `' . $search . '`=' . $db->quote((string) $mid);
 
-    $result = $db->queryF($sql);
+    $result = $db->exec($sql);
 
     foreach ($data as $row) {
         $insertInto  = 'INSERT INTO ' . $prefixedTable . ' (';
@@ -195,7 +200,7 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 
             $insertInto .= $column;
             if ($search === $column) {
-                $valueClause .= $db->quote($replace);
+                $valueClause .= $db->quote((string) $mid);
             } else {
                 $valueClause .= $db->quote($value);
             }
@@ -203,7 +208,7 @@ function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 
         $sql = $insertInto . ') ' . $valueClause . ')';
 
-        $result = $db->queryF($sql);
+        $result = $db->exec($sql);
         if (false !== $result) {
             ++$count;
         }
@@ -224,5 +229,5 @@ function clearSampleData(): void
     foreach ($tables as $table) {
         \Xmf\Database\TableLoad::truncateTable($table);
     }
-    redirect_header($helper->url('admin/index.php'), 1, constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA_OK'));
+    redirect_header($helper->url('admin/index.php'), 1, constant('_CO_XLANGUAGE_CLEAR_SAMPLEDATA_OK'));
 }

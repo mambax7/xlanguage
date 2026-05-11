@@ -1,5 +1,33 @@
-# no backup files, editor temp
+# Dependencies
+/vendor/
+/node_modules/
+composer.lock
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
 *~
-\#*
-*.bak
-.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build & Coverage
+/build/
+/coverage/
+/.phpunit.cache/
+
+# Tool caches
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+
+# Environment
+.env
+.env.local
+*.log
+
+# Claude AI
+CLAUDE.md
+.claude/

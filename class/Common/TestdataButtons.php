@@ -30,8 +30,8 @@ use XoopsModules\Xlanguage\Helper;
 class TestdataButtons
 {
     /** Button status constants */
-    private const SHOW_BUTTONS = 1;
-    private const HIDE_BUTTONS = 0;
+    private const int SHOW_BUTTONS = 1;
+    private const int HIDE_BUTTONS = 0;
 
     /**
      * Load the test button configuration
@@ -52,13 +52,13 @@ class TestdataButtons
 
         if (self::SHOW_BUTTONS == $displaySampleButton) {
             \xoops_loadLanguage('admin/modulesadmin', 'system');
-            $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA'), $helper->url('testdata/index.php?op=load'), 'add');
-            $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), $helper->url('testdata/index.php?op=save'), 'add');
-            $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA'), $helper->url('testdata/index.php?op=clear'), 'alert');
-            //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), $helper->url( 'testdata/index.php?op=exportschema'), 'add');
-            $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
+            $adminObject->addItemButton(\constant('_CO_XLANGUAGE_LOAD_SAMPLEDATA'), $helper->url('testdata/index.php?op=load'), 'add');
+            $adminObject->addItemButton(\constant('_CO_XLANGUAGE_SAVE_SAMPLEDATA'), $helper->url('testdata/index.php?op=save'), 'add');
+            $adminObject->addItemButton(\constant('_CO_XLANGUAGE_CLEAR_SAMPLEDATA'), $helper->url('testdata/index.php?op=clear'), 'alert');
+            //    $adminObject->addItemButton(constant('_CO_XLANGUAGE_EXPORT_SCHEMA'), $helper->url( 'testdata/index.php?op=exportschema'), 'add');
+            $adminObject->addItemButton(\constant('_CO_XLANGUAGE_HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
         } else {
-            $adminObject->addItemButton(\constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
+            $adminObject->addItemButton(\constant('_CO_XLANGUAGE_SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
             // $displaySampleButton = $config['displaySampleButton'];
         }
     }

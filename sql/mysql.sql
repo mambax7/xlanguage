@@ -13,7 +13,7 @@ CREATE TABLE `xlanguage_base` (
   PRIMARY KEY (`lang_id`),
   KEY `lang_name`     (`lang_name`(100))
 )
-  ENGINE = MyISAM;
+  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `xlanguage_ext` (
   `lang_id`      INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -28,4 +28,4 @@ CREATE TABLE `xlanguage_ext` (
   KEY `lang_name`     (`lang_name`(100)),
   KEY `lang_base`     (`lang_base`(100))
 )
-  ENGINE = MyISAM;
+  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

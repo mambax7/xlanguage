@@ -1,6 +1,14 @@
-<h5>3.1.4 Beta 2        [2024-05-31]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.33, PHP 8.3.7
+<h5>3.1.4 RC-1 [2026-05-11]</h5>
 <hr>
-- index.html in /preloads (mamba)
+- replaced .gif with .png icons (mamba)
+- fixed source-selection (URL → cookie → detectLang → default) in api.php (mamba)
+
+
+<h5>3.1.4-dev [2026-04-25]</h5>
+<hr>
+- Replaced raw request extraction in the admin language controller with source-pinned Xmf\Request reads.
+- Added CSRF validation for language save/delete/config-create mutations.
+- Validated requested language tags before setting the language cookie.
 
 <h5>3.1.4 Beta 1        [2022-02-20]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.27, PHP 8.0.16
 <hr>

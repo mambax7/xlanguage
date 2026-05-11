@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
@@ -32,17 +32,17 @@ require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/vars.php';
 
-$op = '';
-if (isset($_POST)) {
-    foreach ($_POST as $k => $v) {
-        ${$k} = $v;
-    }
-}
-if (isset($_GET)) {
-    foreach ($_GET as $k => $v) {
-        ${$k} = $v;
-    }
-}
+$requestSource = ('POST' === Request::getString('REQUEST_METHOD', 'GET', 'SERVER')) ? 'POST' : 'GET';
+$op            = Request::getString('op', '', $requestSource);
+$type          = Request::getString('type', 'base', $requestSource);
+$lang_id       = Request::getInt('lang_id', 0, $requestSource);
+$lang_name     = Request::getString('lang_name', '', $requestSource);
+$lang_desc     = Request::getString('lang_desc', '', $requestSource);
+$lang_code     = Request::getString('lang_code', '', $requestSource);
+$lang_charset  = Request::getString('lang_charset', '', $requestSource);
+$lang_image    = basename(Request::getString('lang_image', 'noflag.gif', $requestSource));
+$lang_base     = Request::getString('lang_base', '', $requestSource);
+$weight        = Request::getInt('weight', 1, $requestSource);
 
 define('XLANG_CONFIG_LINK', "<a href='main.php' target='_self'>" . _AM_XLANGUAGE_CONFIG . '</a>');
 
@@ -52,7 +52,7 @@ $languageHandler->loadConfig();
 
 switch ($op) {
     case 'del':
-        if (!isset($_POST['ok']) || 1 != $_POST['ok']) {
+        if (1 !== Request::getInt('ok', 0, 'POST')) {
             xoops_cp_header();
             $aboutAdmin = Admin::getInstance();
             $adminObject->displayNavigation(basename(__FILE__));
@@ -63,12 +63,20 @@ switch ($op) {
             if (isset($type) && 'ext' === $type) {
                 $isBase = false;
             }
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header('main.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                exit();
+            }
             $lang = $languageHandler->get($lang_id, $isBase);
             $languageHandler->delete($lang);
             redirect_header('main.php', 2, _AM_XLANGUAGE_DELETED);
         }
         break;
     case 'save':
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header('main.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            exit();
+        }
         $isBase = true;
         if (isset($type) && 'ext' === $type) {
             $isBase = false;
@@ -144,8 +152,19 @@ switch ($op) {
         require_once __DIR__ . '/langform.inc.php';
         break;
     case 'createconfig':
-        Utility::createConfig();
-        redirect_header('main.php', 1, _AM_XLANGUAGE_CREATED);
+        if (1 !== Request::getInt('ok', 0, 'POST')) {
+            xoops_cp_header();
+            $adminObject = Admin::getInstance();
+            $adminObject->displayNavigation(basename(__FILE__));
+            xoops_confirm(['op' => 'createconfig', 'ok' => 1], 'main.php', _AM_XLANGUAGE_CREATECONFIG);
+        } else {
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header('main.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                exit();
+            }
+            Utility::createConfig();
+            redirect_header('main.php', 1, _AM_XLANGUAGE_CREATED);
+        }
 
         break;
     case 'default':
@@ -218,10 +237,10 @@ function languageList(LanguageHandler $languageHandler): void
                 echo "<td class='$class' ><b>" . $lang['base']->getVar('lang_charset') . "</b></td>\n";
                 echo "<td class='$class' >" . $lang['base']->getVar('lang_code') . "</td>\n";
                 $lang_image = 'noflag.gif';
-                if (is_readable(XOOPS_ROOT_PATH . '/modules/xlanguage/assets/images/' . $lang['base']->getVar('lang_image'))) {
+                if (is_readable(XOOPS_ROOT_PATH . '/modules/xlanguage/assets/flags/' . $lang['base']->getVar('lang_image'))) {
                     $lang_image = $lang['base']->getVar('lang_image');
                 }
-                echo "<td class='$class' ><img src='" . XOOPS_URL . '/modules/xlanguage/assets/images/' . $lang_image . "' alt='" . $lang['base']->getVar('lang_desc') . "'></td>\n";
+                echo "<td class='$class' ><img src='" . XOOPS_URL . '/modules/xlanguage/assets/flags/' . $lang_image . "' alt='" . $lang['base']->getVar('lang_desc') . "'></td>\n";
                 echo "<td class='$class' >" . $lang['base']->getVar('weight') . "</td>\n";
                 echo "<td class='$class' >&#216;</td>\n";
                 echo "<td class='$class' ><a href='main.php?op=edit&amp;type=base&amp;lang_id="
@@ -252,10 +271,10 @@ function languageList(LanguageHandler $languageHandler): void
                 echo "<td class='$class' ><b>" . $ext->getVar('lang_charset') . "</b></td>\n";
                 echo "<td class='$class' >" . $ext->getVar('lang_code') . "</td>\n";
                 $lang_image = 'noflag.gif';
-                if (is_readable(XOOPS_ROOT_PATH . '/modules/xlanguage/assets/images/' . $ext->getVar('lang_image'))) {
+                if (is_readable(XOOPS_ROOT_PATH . '/modules/xlanguage/assets/flags/' . $ext->getVar('lang_image'))) {
                     $lang_image = $ext->getVar('lang_image');
                 }
-                echo "<td class='$class' ><img src='" . XOOPS_URL . '/modules/xlanguage/assets/images/' . $lang_image . "' alt='" . $ext->getVar('lang_desc') . "'></td>\n";
+                echo "<td class='$class' ><img src='" . XOOPS_URL . '/modules/xlanguage/assets/flags/' . $lang_image . "' alt='" . $ext->getVar('lang_desc') . "'></td>\n";
                 echo "<td class='$class' >" . $ext->getVar('weight') . "</td>\n";
                 $lang_base = $isOrphan ? "<span style='color:#ff0000'>" . $ext->getVar('lang_base') . '</span>' : $ext->getVar('lang_base');
                 echo "<td class='$class' ><b>" . $lang_base . "</b></td>\n";

@@ -57,7 +57,7 @@ function xoops_module_uninstall_xlanguage(\XoopsModule $module)
         if ($dirInfo->isDir()) {
             // The directory exists so delete it
             if (!$utility::rrmdir($old_dir)) {
-                $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR_BAD_DEL_PATH'), $old_dir));
+                $module->setErrors(sprintf(constant('_CO_XLANGUAGE_ERROR_BAD_DEL_PATH'), $old_dir));
                 $success = false;
             }
         }
@@ -69,7 +69,7 @@ function xoops_module_uninstall_xlanguage(\XoopsModule $module)
     // Remove xsitemap.xml from XOOPS root folder if it exists
     //------------------------------------------------------------------
     $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
-    if (\is_file($xmlfile)) {
+    if (is_file($xmlfile)) {
         if (false === ($delOk = unlink($xmlfile))) {
             $module->setErrors(sprintf(_AM_XLANGUAGE_ERROR_BAD_REMOVE, $xmlfile));
         }

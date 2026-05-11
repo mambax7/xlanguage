@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
@@ -52,15 +52,15 @@ if (!$isBase) {
 $sform->addElement(new \XoopsFormText(_AM_XLANGUAGE_WEIGHT, 'weight', 10, 10, $weight));
 
 $image_option_tray = new \XoopsFormElementTray(_AM_XLANGUAGE_IMAGE, '');
-$image_array       = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/assets/images/');
+$image_array       = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/assets/flags/');
 $lang_image        = empty($lang_image) ? 'noflag.gif' : $lang_image;
 $image_select      = new \XoopsFormSelect('', 'lang_image', $lang_image);
 $image_select->addOptionArray($image_array);
-$image_select->setExtra("onchange='showImgSelected(\"image\", \"lang_image\", \"/modules/" . $xoopsModule->dirname() . '/assets/images/", "", "' . XOOPS_URL . "\")'");
+$image_select->setExtra("onchange='showImgSelected(\"image\", \"lang_image\", \"/modules/" . $xoopsModule->dirname() . '/assets/flags/", "", "' . XOOPS_URL . "\")'");
 $image_tray = new \XoopsFormElementTray('', '&nbsp;');
 $image_tray->addElement($image_select);
 if (!empty($lang_image)) {
-    $image_tray->addElement(new \XoopsFormLabel('', "<div style='padding: 8px;'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/images/' . $lang_image . "' name='image' id='image' alt=''></div>"));
+    $image_tray->addElement(new \XoopsFormLabel('', "<div style='padding: 8px;'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/flags/' . $lang_image . "' name='image' id='image' alt=''></div>"));
 } else {
     $image_tray->addElement(new \XoopsFormLabel('', "<div style='padding: 8px;'><img src='" . XOOPS_URL . "/images/blank.gif' name='image' id='image' alt=''></div>"));
 }

@@ -9,7 +9,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright       XOOPS Project (https://xoops.org)
+ * @copyright       2000-2026 XOOPS Project (https://xoops.org)
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author          trabis <lusopoemas@gmail.com>
  */
@@ -17,7 +17,7 @@
 /**
  * Xlanguage core preloads
  *
- * @copyright       XOOPS Project (https://xoops.org)
+ * @copyright       2000-2026 XOOPS Project (https://xoops.org)
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author          trabis <lusopoemas@gmail.com>
  */

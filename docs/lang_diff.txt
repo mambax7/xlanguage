@@ -12,3 +12,8 @@ x renamed
 ---------------------------------------
 3.04 RC2  2012-07-30
 ---------------------------------------
+2026-04-25
+----------
+
+- No language constants changed.
+- Database API modernization only.

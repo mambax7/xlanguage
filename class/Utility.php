@@ -43,18 +43,18 @@ class Utility extends Common\SysUtility
      */
     public static function convertItem($value, $out_charset, $in_charset)
     {
-        if (mb_strtolower($in_charset) == \mb_strtolower($out_charset)) {
+        if (mb_strtolower((string) $in_charset) == \mb_strtolower((string) $out_charset)) {
             return $value;
         }
 
-        $xconvHandler = @\xoops_getModuleHandler('xconv', 'xconv', true);
+        $xconvHandler = @xoops_getModuleHandler('xconv', 'xconv', true);
         if (\is_object($xconvHandler) && $convertedValue = @$xconvHandler->convert_encoding($value, $out_charset, $in_charset)) {
             return $convertedValue;
         }
         if (XOOPS_USE_MULTIBYTES && \function_exists('mb_convert_encoding')) {
             $convertedValue = @mb_convert_encoding($value, $out_charset, $in_charset);
         } elseif (\function_exists('iconv')) {
-            $convertedValue = @\iconv($in_charset, $out_charset, $value);
+            $convertedValue = @\iconv((string) $in_charset, (string) $out_charset, (string) $value);
         }
         $value = empty($convertedValue) ? $value : $convertedValue;
 
@@ -108,7 +108,7 @@ class Utility extends Common\SysUtility
                 // $envType =  1 for the 'HTTP_ACCEPT_LANGUAGE' environment variable,
                 //             2 for the 'HTTP_USER_AGENT' one
                 $expr = $value[0];
-                if (false === mb_strpos($expr, '[-_]')) {
+                if (false === mb_strpos((string) $expr, '[-_]')) {
                     $expr = \str_replace('|', '([-_][[:alpha:]]{2,3})?|', $expr);
                 }
                 //        if (($envType == 1 && eregi('^(' . $expr . ')(;q=[0-9]\\.[0-9])?$', $str))
@@ -224,7 +224,7 @@ class Utility extends Common\SysUtility
         // escape brackets inside of <textarea></textarea>
         $patterns[] = '/(\<textarea\b[^>]*>[^\<]*\<\/textarea>)/isU';
 
-        $text = \preg_replace_callback($patterns, [__CLASS__, 'escapeBracketMultiLang'], $text);
+        $text = \preg_replace_callback($patterns, self::escapeBracketMultiLang(...), $text);
 
         // create the pattern between language tags
         $pqhtmltags  = \explode(',', preg_quote(\XLANGUAGE_TAGS_RESERVED, '/'));
@@ -235,7 +235,7 @@ class Utility extends Common\SysUtility
 
         if (isset($xlanguage_langs[$xoopsConfig['language']])) {
             $lang       = $xlanguage_langs[$xoopsConfig['language']];
-            $patterns[] = '/(\[([^\]]*\|)?' . preg_quote($lang, '~') . '(\|[^\]]*)?\])(' . $mid_pattern . ')(\[\/([^\]]*\|)?' . preg_quote($lang, '~') . '(\|[^\]]*)?\])/isU';
+            $patterns[] = '/(\[([^\]]*\|)?' . preg_quote((string) $lang, '~') . '(\|[^\]]*)?\])(' . $mid_pattern . ')(\[\/([^\]]*\|)?' . preg_quote((string) $lang, '~') . '(\|[^\]]*)?\])/isU';
             $replaces[] = '$4';
         }
 
@@ -244,14 +244,14 @@ class Utility extends Common\SysUtility
                 continue;
             }
             $name       = $xlanguage_langs[$_lang];
-            $patterns[] = '/(\[([^\]]*\|)?' . preg_quote($name, '~') . '(\|[^\]]*)?\])(' . $mid_pattern . ')(\[\/([^\]]*\|)?' . preg_quote($name, '~') . '(\|[^\]]*)?(\]\<br[\s]?[\/]?\>|\]))/isU';
+            $patterns[] = '/(\[([^\]]*\|)?' . preg_quote((string) $name, '~') . '(\|[^\]]*)?\])(' . $mid_pattern . ')(\[\/([^\]]*\|)?' . preg_quote((string) $name, '~') . '(\|[^\]]*)?(\]\<br[\s]?[\/]?\>|\]))/isU';
             $replaces[] = '';
         }
         if (!empty($xoopsConfig['language'])) {
-            $text = \preg_replace('/\[[\/]?[\|]?' . preg_quote($xoopsConfig['language'], '~') . '[\|]?\](\<br \/\>)?/i', '', $text);
+            $text = \preg_replace('/\[[\/]?[\|]?' . preg_quote((string) $xoopsConfig['language'], '~') . '[\|]?\](\<br \/\>)?/i', '', (string) $text);
         }
         if (\count($replaces) > 0) {
-            $text = \preg_replace($patterns, $replaces, $text);
+            $text = \preg_replace($patterns, $replaces, (string) $text);
         }
 
         return $text;
@@ -267,7 +267,7 @@ class Utility extends Common\SysUtility
         $ret = $matches[1];
         if (!empty($xlanguage_langs)) {
             $pattern = '/(\[([\/])?(' . \implode('|', \array_map('\preg_quote', \array_values($xlanguage_langs))) . ')([\|\]]))/isU';
-            $ret     = \preg_replace($pattern, '&#91;\\2\\3\\4', $ret);
+            $ret     = \preg_replace($pattern, '&#91;\\2\\3\\4', (string) $ret);
         }
 
         return $ret;

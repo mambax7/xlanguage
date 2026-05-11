@@ -1,19 +1,11 @@
 -
-    lang_id: '13'
-    weight: '3'
-    lang_name: french
-    lang_desc: French
-    lang_code: fr
-    lang_charset: UTF-8
-    lang_image: french.gif
--
     lang_id: '11'
     weight: '2'
     lang_name: english
     lang_desc: English
     lang_code: en
     lang_charset: UTF-8
-    lang_image: usa.gif
+    lang_image: USA.png
 -
     lang_id: '12'
     weight: '4'
@@ -21,7 +13,15 @@
     lang_desc: Germany
     lang_code: de
     lang_charset: UTF-8
-    lang_image: german.gif
+    lang_image: Germany.png
+-
+    lang_id: '13'
+    weight: '3'
+    lang_name: french
+    lang_desc: French
+    lang_code: fr
+    lang_charset: UTF-8
+    lang_image: France.png
 -
     lang_id: '14'
     weight: '1'
@@ -29,7 +29,7 @@
     lang_desc: Italian
     lang_code: it
     lang_charset: UTF-8
-    lang_image: italian.gif
+    lang_image: Italy.png
 -
     lang_id: '17'
     weight: '1'
@@ -37,7 +37,7 @@
     lang_desc: Polish
     lang_code: pl
     lang_charset: UTF-8
-    lang_image: poland.gif
+    lang_image: Poland.png
 -
     lang_id: '18'
     weight: '1'
@@ -45,12 +45,244 @@
     lang_desc: Spanish
     lang_code: es
     lang_charset: UTF-8
-    lang_image: spanish.gif
+    lang_image: Spain.png
 -
     lang_id: '19'
+    weight: '1'
+    lang_name: brazilian
+    lang_desc: Brazilian
+    lang_code: pr_br
+    lang_charset: UTF-8
+    lang_image: Brazil.png
+-
+    lang_id: '20'
+    weight: '1'
+    lang_name: arabic
+    lang_desc: Arabic
+    lang_code: ar
+    lang_charset: UTF-8
+    lang_image: Saudi-Arabia.png
+-
+    lang_id: '21'
+    weight: '1'
+    lang_name: schinese
+    lang_desc: 'Chines Simplified'
+    lang_code: zh
+    lang_charset: UTF-8
+    lang_image: China.png
+-
+    lang_id: '22'
+    weight: '1'
+    lang_name: czech
+    lang_desc: Czech
+    lang_code: cs
+    lang_charset: UTF-8
+    lang_image: Czech.png
+-
+    lang_id: '23'
+    weight: '1'
+    lang_name: danish
+    lang_desc: Danish
+    lang_code: da
+    lang_charset: UTF-8
+    lang_image: Denmark.png
+-
+    lang_id: '24'
+    weight: '1'
+    lang_name: greek
+    lang_desc: Greek
+    lang_code: el
+    lang_charset: UTF-8
+    lang_image: Greece.png
+-
+    lang_id: '25'
+    weight: '1'
+    lang_name: japanese
+    lang_desc: Japanese
+    lang_code: jp
+    lang_charset: UTF-8
+    lang_image: Japan.png
+-
+    lang_id: '26'
+    weight: '1'
+    lang_name: korean
+    lang_desc: Korean
+    lang_code: ko
+    lang_charset: UTF-8
+    lang_image: South-Korea.png
+-
+    lang_id: '27'
+    weight: '1'
+    lang_name: dutch
+    lang_desc: Dutch
+    lang_code: nl
+    lang_charset: UTF-8
+    lang_image: Netherlands.png
+-
+    lang_id: '28'
+    weight: '1'
+    lang_name: norwegian
+    lang_desc: Norwegian
+    lang_code: 'no'
+    lang_charset: UTF-8
+    lang_image: Norway.png
+-
+    lang_id: '29'
+    weight: '1'
+    lang_name: Slovak
+    lang_desc: Slovakia
+    lang_code: sl
+    lang_charset: UTF-8
+    lang_image: Slovakia.png
+-
+    lang_id: '30'
+    weight: '1'
+    lang_name: swedish
+    lang_desc: Swedish
+    lang_code: sv
+    lang_charset: UTF-8
+    lang_image: Sweden.png
+-
+    lang_id: '31'
+    weight: '1'
+    lang_name: tchinese
+    lang_desc: 'Chinese Traditional'
+    lang_code: zh-tw
+    lang_charset: UTF-8
+    lang_image: Taiwan.png
+-
+    lang_id: '32'
+    weight: '1'
+    lang_name: turkish
+    lang_desc: Turkish
+    lang_code: tr
+    lang_charset: UTF-8
+    lang_image: Turkey.png
+-
+    lang_id: '33'
+    weight: '1'
+    lang_name: persian
+    lang_desc: Persian
+    lang_code: fa
+    lang_charset: UTF-8
+    lang_image: Iran.png
+-
+    lang_id: '35'
+    weight: '1'
+    lang_name: russian
+    lang_desc: Russian
+    lang_code: ru
+    lang_charset: UTF-8
+    lang_image: Russia.png
+-
+    lang_id: '36'
+    weight: '1'
+    lang_name: ukrainian
+    lang_desc: Ukrainian
+    lang_code: uk
+    lang_charset: UTF-8
+    lang_image: Ukraine.png
+-
+    lang_id: '37'
+    weight: '1'
+    lang_name: bosnian
+    lang_desc: Bosnian
+    lang_code: bs
+    lang_charset: UTF-8
+    lang_image: Bosnia-and-Herzegovina.png
+-
+    lang_id: '38'
+    weight: '1'
+    lang_name: bulgarian
+    lang_desc: Bulgarian
+    lang_code: bg
+    lang_charset: UTF-8
+    lang_image: Bulgaria.png
+-
+    lang_id: '39'
+    weight: '1'
+    lang_name: croatian
+    lang_desc: Croatian
+    lang_code: hr
+    lang_charset: UTF-8
+    lang_image: Croatia.png
+-
+    lang_id: '40'
+    weight: '1'
+    lang_name: hebrew
+    lang_desc: Hebrew
+    lang_code: he
+    lang_charset: UTF-8
+    lang_image: Israel.png
+-
+    lang_id: '41'
+    weight: '1'
+    lang_name: hungarian
+    lang_desc: Hungarian
+    lang_code: hu
+    lang_charset: UTF-8
+    lang_image: Hungary.png
+-
+    lang_id: '42'
+    weight: '1'
+    lang_name: malaysian
+    lang_desc: Malaysian
+    lang_code: ml
+    lang_charset: UTF-8
+    lang_image: Malaysia.png
+-
+    lang_id: '43'
+    weight: '1'
+    lang_name: romanian
+    lang_desc: Romanian
+    lang_code: ro
+    lang_charset: UTF-8
+    lang_image: Romania.png
+-
+    lang_id: '44'
+    weight: '1'
+    lang_name: thai
+    lang_desc: Thai
+    lang_code: th
+    lang_charset: UTF-8
+    lang_image: Thailand.png
+-
+    lang_id: '45'
+    weight: '1'
+    lang_name: urdu
+    lang_desc: Urdu
+    lang_code: ur
+    lang_charset: UTF-8
+    lang_image: Pakistan.png
+-
+    lang_id: '46'
+    weight: '1'
+    lang_name: vietnamese
+    lang_desc: Vietnamese
+    lang_code: vi
+    lang_charset: UTF-8
+    lang_image: Vietnam.png
+-
+    lang_id: '47'
+    weight: '1'
+    lang_name: slovenian
+    lang_desc: Slovenian
+    lang_code: sl
+    lang_charset: UTF-8
+    lang_image: Slovenia.png
+-
+    lang_id: '48'
+    weight: '1'
+    lang_name: finnish
+    lang_desc: Finnish
+    lang_code: fi
+    lang_charset: UTF-8
+    lang_image: Finland.png
+-
+    lang_id: '49'
     weight: '1'
     lang_name: portuguese
     lang_desc: Portuguese
     lang_code: pr
     lang_charset: UTF-8
-    lang_image: brazil.gif
+    lang_image: Portugal.png

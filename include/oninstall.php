@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
  */
@@ -41,9 +41,9 @@ function xoops_module_pre_install_xlanguage(\XoopsModule $module)
     $phpSuccess   = $utility::checkVerPhp($module);
 
     if (false !== $xoopsSuccess && false !== $phpSuccess) {
-        $moduleTables = &$module->getInfo('tables');
+        $moduleTables = $module->getInfo('tables');
         foreach ($moduleTables as $table) {
-            $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+            $GLOBALS['xoopsDB']->exec('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
         }
     }
 
@@ -99,7 +99,7 @@ function xoops_module_install_xlanguage(\XoopsModule $module)
     }
     //delete .html entries from the tpl table
     $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $xoopsModule->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
-    $GLOBALS['xoopsDB']->queryF($sql);
+    $GLOBALS['xoopsDB']->exec($sql);
 
     return true;
 }

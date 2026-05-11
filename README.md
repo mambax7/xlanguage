@@ -11,6 +11,8 @@
 
 **xLanguage** module for [XOOPS CMS](https://xoops.org) handles displaying contents in different languages, like English, French and Chinese. If you want to switch between languages, this module is for you.
 
+Language switch requests are validated against the configured language names before a cookie is set. Admin language mutations use XOOPS security tokens and source-pinned request reads.
+
 [![Tutorial Available](https://xoops.org/images/tutorial-available-blue.svg)](https://xoops.gitbook.io/xlanguage-tutorial/) Tutorial: see [here](https://xoops.gitbook.io/xlanguage-tutorial/).
 To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/xlanguage-tutorial)
 

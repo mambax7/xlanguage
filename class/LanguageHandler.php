@@ -12,7 +12,7 @@ namespace XoopsModules\Xlanguage;
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    2000-2026 XOOPS Project (https://xoops.org)
  * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @since        2.0
  * @author       D.J.(phppp) php_pp@hotmail.com
@@ -40,6 +40,7 @@ class LanguageHandler extends XoopsObjectHandler
      *
      * @return Blanguage|Language|null
      */
+    #[\Override]
     public function get($id, $isBase = true)
     {
         $array = [];
@@ -55,8 +56,8 @@ class LanguageHandler extends XoopsObjectHandler
             $sql = 'SELECT * FROM ' . $this->db->prefix($prefix) . ' WHERE lang_id=' . $id;
             /** @var \mysqli_result|false $result */
             $result = $this->db->query($sql);
-            if ($result) {
-                $array = $this->db->fetchArray($result);
+            if ($this->db->isResultSet($result) && $result instanceof \mysqli_result) {
+                $array = (($this->db->isResultSet($result) && ($result instanceof \mysqli_result)) ? $this->db->fetchArray($result) : false);
             }
         }
         if (!\is_array($array) || 0 == \count($array)) {
@@ -91,13 +92,17 @@ class LanguageHandler extends XoopsObjectHandler
         } elseif (isset($this->cachedConfig['xlanguage_ext'][$name])) {
             $array = $this->cachedConfig['xlanguage_ext'][$name];
         } elseif (!isset($this->cachedConfig)) {
-            $sql    = 'SELECT * FROM ' . $this->db->prefix('xlanguage_base') . ' WHERE lang_name=\'' . $name . '\'';
+            $sql    = 'SELECT * FROM ' . $this->db->prefix('xlanguage_base') . ' WHERE lang_name=' . $this->db->quote($name);
             $result = $this->db->query($sql);
-            $array  = $this->db->fetchArray($result);
+            if ($this->db->isResultSet($result) && $result instanceof \mysqli_result) {
+                $array = (($this->db->isResultSet($result) && ($result instanceof \mysqli_result)) ? $this->db->fetchArray($result) : false);
+            }
             if (!\is_array($array) || 0 == \count($array)) {
-                $sql    = 'SELECT * FROM ' . $this->db->prefix('xlanguage_ext') . ' WHERE lang_name=\'' . $name . '\'';
+                $sql    = 'SELECT * FROM ' . $this->db->prefix('xlanguage_ext') . ' WHERE lang_name=' . $this->db->quote($name);
                 $result = $this->db->query($sql);
-                $array  = $this->db->fetchArray($result);
+                if ($this->db->isResultSet($result) && $result instanceof \mysqli_result) {
+                    $array = (($this->db->isResultSet($result) && ($result instanceof \mysqli_result)) ? $this->db->fetchArray($result) : false);
+                }
                 if (!\is_array($array) || 0 == \count($array)) {
                     return $lang;
                 }
@@ -139,10 +144,10 @@ class LanguageHandler extends XoopsObjectHandler
             $sql = 'SELECT * FROM ' . $this->db->prefix($prefix);
             /** @var \mysqli_result|false $result */
             $result = $this->db->query($sql);
-            if (!$result) {
+            if (!$this->db->isResultSet($result) || !($result instanceof \mysqli_result)) {
                 return false;
             }
-            while (false !== ($myrow = $this->db->fetchArray($result))) {
+            while (false !== ($myrow = (($this->db->isResultSet($result) && ($result instanceof \mysqli_result)) ? $this->db->fetchArray($result) : false))) {
                 $lang = $this->create(false, $isBase);
                 $lang->assignVars($myrow);
                 $ret[$myrow['lang_name']] = &$lang;
@@ -184,6 +189,7 @@ class LanguageHandler extends XoopsObjectHandler
      *
      * @return Blanguage|Language
      */
+    #[\Override]
     public function create($isNew = true, $isBase = true)
     {
         if ($isBase) {
@@ -203,7 +209,8 @@ class LanguageHandler extends XoopsObjectHandler
      * @return bool|string|array
      * @internal param object $lang
      */
-    public function insert($lang)
+    #[\Override]
+    public function insert($lang, bool $force = \false)
     {
         $val_array = [];
         if (!$lang->isDirty()) {
@@ -244,7 +251,7 @@ class LanguageHandler extends XoopsObjectHandler
                 $val_array[] = ${$var};
             }
             $sql = 'INSERT INTO ' . $lang->table . ' (' . \implode(',', $var_array) . ') VALUES (' . \implode(',', $val_array) . ')';
-            if (!$result = $this->db->queryF($sql)) {
+            if (!$this->db->exec($sql)) {
                 \xoops_error('Insert language error:' . $sql);
 
                 return false;
@@ -272,7 +279,7 @@ class LanguageHandler extends XoopsObjectHandler
             }
             $set_string = \implode(',', $set_array);
             $sql        = 'UPDATE ' . $lang->table . ' SET ' . $set_string . ' WHERE lang_id = ' . $lang->getVar('lang_id');
-            if (!$result = $this->db->queryF($sql)) {
+            if (!$this->db->exec($sql)) {
                 \xoops_error('update language error:' . $sql);
 
                 return false;
@@ -288,13 +295,14 @@ class LanguageHandler extends XoopsObjectHandler
      * @return bool
      * @internal param object $lang
      */
-    public function delete($lang)//delete(&$lang)
+    #[\Override]
+    public function delete($lang, bool $force = \false)//delete(&$lang)
     {
         if (!\is_object($lang) || !$lang->getVar('lang_id')) {
             return true;
         }
         $sql = 'DELETE FROM ' . $lang->table . ' WHERE lang_id= ' . $lang->getVar('lang_id');
-        if (!$result = $this->db->query($sql)) {
+        if (!$result = $this->db->exec($sql)) {
             return false;
         }
         $this->createConfig();
